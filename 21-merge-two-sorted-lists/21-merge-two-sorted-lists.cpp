@@ -14,34 +14,39 @@ public:
         if(list1==NULL) return list2;
         if(list2==NULL) return list1;
         
-        vector<ListNode*> ans;
+        ListNode* head = NULL;
+        if(list1->val >= list2->val) {
+            head = list2;
+            list2 = list2->next;
+        }
+        else{
+            head = list1;
+            list1 = list1->next;
+        }
+        ListNode* temp = head;
         while(list1!=NULL && list2!=NULL){
             if(list1->val >= list2->val){
-                ans.push_back(list2);
+                temp->next = list2;
+                temp = temp->next;
                 list2 = list2->next;
             }
             else{
-                ans.push_back(list1);
+                temp->next = list1;
+                temp = temp->next;
                 list1 = list1->next;
             }
         }
         
         while(list1!=NULL){
-            ans.push_back(list1);
+            temp->next = list1;
+            temp = temp->next;
             list1=list1->next;
         }
         
         while(list2!=NULL){
-            ans.push_back(list2);
-            list2 = list2->next;
-        }
-        
-        ListNode* head = ans[0];
-        ListNode* temp = head;
-        
-        for(int i=1;i<ans.size();i++){
-            temp->next = ans[i];
+            temp->next = list2;
             temp = temp->next;
+            list2 = list2->next;
         }
         
         return head;
