@@ -10,20 +10,17 @@
  */
 class Solution {
 public:
+    ListNode* temp;
     bool isPalindrome(ListNode* head) {
-        if(head==NULL) return false;
-        if(head->next==NULL) return true;
-        vector<int> temp1, temp2;
-        while(head!=NULL){
-            temp1.push_back(head->val);
-            head = head->next;
-        }
+        temp = head;
+        return check(head);
+    }
+private:
+    bool check(ListNode* t){
+        if(t==NULL) return true;
         
-        temp2 = temp1;
-        reverse(temp1.begin(),temp1.end());
-        
-        
-        if(temp2==temp1) return true;
-        return false;
+        bool flag = check(t->next) & (t->val==temp->val);
+        temp = temp->next;
+        return flag;
     }
 };
