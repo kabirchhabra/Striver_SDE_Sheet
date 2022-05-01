@@ -1,24 +1,24 @@
 class Solution {
-public:
-    vector<vector<int>>result;
-    vector<int>current;
-
-    void function(vector<int>& candidates,int target,int index=0) {
-        if(target==0){
-            result.push_back(current);
+private:
+    void findCombination(int ind, int target, vector<int> &arr, vector<vector<int>> &ans, vector<int> &ds){
+        if(ind==arr.size()){
+            if(target==0) ans.push_back(ds);
             return;
         }
-    
-        if(index==candidates.size() || target<0)return;
-    
-        current.push_back(candidates[index]);
-        function(candidates,target-candidates[index],index);
-        current.pop_back();
-        function(candidates,target,index+1);      
+        
+        if(arr[ind] <= target){
+            ds.push_back(arr[ind]);
+            findCombination(ind, target-arr[ind], arr, ans, ds);
+            ds.pop_back();
+        }
+        findCombination(ind+1, target, arr, ans,ds);
+        
     }
-
+public:
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        function(candidates,target);
-        return result;
+        vector<vector<int>> ans;
+        vector<int> ds;
+        findCombination(0, target, candidates, ans, ds);
+        return ans;
     }
 };
